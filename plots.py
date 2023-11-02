@@ -2,10 +2,12 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+
 import yfinance
 
 trades = pd.read_csv("trades_of_strategy.csv")
 trades['Date'] = pd.to_datetime(trades['Date'])
+
 
 spx = raw_data = yfinance.download (tickers = "^SPX", start = "2015-01-01", 
                               end = "2022-06-01", interval = "1d")
@@ -15,6 +17,7 @@ spx = raw_data = yfinance.download (tickers = "^SPX", start = "2015-01-01",
 trades[trades["Train/Test"] == "Train"].groupby("Date")["Profit_per_day"].mean().add(1).cumprod().plot(title="Training Set Performance")
 plt.show()
 plt.savefig(f"./Plots/Training Set Performance.jpg")
+
 joined = trades[trades["Train/Test"] == "Train"].groupby("Date")[["Profit_per_day"]].mean()
 joined.loc[:, "MOC_Strategy"] = joined.loc[:, "Profit_per_day"].add(1).cumprod()
 #joined = trades[trades["Train/Test"] == "Train"].groupby("Date")[["Profit_per_day"]].mean().add(1).cumprod()

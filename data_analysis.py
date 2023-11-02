@@ -12,6 +12,7 @@ from data_prep import company_tickers, future_tickers, split
 
 # Define output names
 re_run_regressions = 1 # Switch to re-run the regressions
+
 reg_1_filename = "Regression.csv"
 reg_2_filename = "Rolling_Reg.csv"
 
@@ -168,7 +169,6 @@ if __name__ == "__main__":
         pool.join()
         
         final.to_csv(reg_2_filename)
-        
 
     
     
