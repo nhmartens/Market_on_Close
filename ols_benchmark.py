@@ -16,8 +16,8 @@ def OLS(x, y, intercept=True):
 
 # Generate Random Data
 np.random.seed(1)
-X = np.array([np.random.randn(100_00), np.random.randn(100_00)]).T
-y = 5 + 2 * X[:,0] + 3 * X[:,1] + np.random.randn(100_00)
+X = np.array([np.random.randn(100_000), np.random.randn(100_000)]).T
+y = 5 + 2 * X[:,0] + 3 * X[:,1] + np.random.randn(100_000)
 
 # Statsmodels implementation
 no_runs = 100
@@ -45,3 +45,4 @@ print(f'Custom: {(end_time - start_time) / no_runs}')
 
 
 # On MacOS with an ARM64 Chip and my working environment, the Statsmodel performs the best by far
+# This is not really intuitive as it calculates a lot of stats in the background
