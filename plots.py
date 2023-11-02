@@ -3,16 +3,49 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+import yfinance
+
 trades = pd.read_csv("trades_of_strategy.csv")
 trades['Date'] = pd.to_datetime(trades['Date'])
+
+
+spx = raw_data = yfinance.download (tickers = "^SPX", start = "2015-01-01", 
+                              end = "2022-06-01", interval = "1d")
+
 
 
 trades[trades["Train/Test"] == "Train"].groupby("Date")["Profit_per_day"].mean().add(1).cumprod().plot(title="Training Set Performance")
 plt.show()
 plt.savefig(f"./Plots/Training Set Performance.jpg")
+
+joined = trades[trades["Train/Test"] == "Train"].groupby("Date")[["Profit_per_day"]].mean()
+joined.loc[:, "MOC_Strategy"] = joined.loc[:, "Profit_per_day"].add(1).cumprod()
+#joined = trades[trades["Train/Test"] == "Train"].groupby("Date")[["Profit_per_day"]].mean().add(1).cumprod()
+joined = joined.join(spx)
+joined.loc[:, "Return"] = joined.loc[:, "Adj Close"].pct_change()
+joined.loc[:, "SPX"] = joined.loc[:, "Return"].add(1).cumprod()
+joined.loc[:,["MOC_Strategy", "SPX"]].plot()
+plt.savefig(f"./Plots/Training Set Performance vs SPX.jpg")
+plt.show()
+print(f"Sharpe Ratio MOC_Strategy Training Set: {np.sqrt(252) * joined.loc[:,'Profit_per_day'].mean() / (joined.loc[:,'Profit_per_day'].std())}")
+print(f"Sharpe Ratio SPX Training Set: {np.sqrt(252) * joined.loc[:,'Return'].mean() / (joined.loc[:,'Return'].std())}")
+
 trades[trades["Train/Test"] == "Test"].groupby("Date")["Profit_per_day"].mean().add(1).cumprod().plot(title="Test Set Performance")
 plt.show()
 plt.savefig(f"./Plots/Test Set Performance.jpg")
+joined = trades[trades["Train/Test"] == "Test"].groupby("Date")[["Profit_per_day"]].mean()
+joined.loc[:, "MOC_Strategy"] = joined.loc[:, "Profit_per_day"].add(1).cumprod()
+joined = joined.join(spx)
+joined.loc[:, "Return"] = joined.loc[:, "Adj Close"].pct_change()
+joined.loc[:, "SPX"] = joined.loc[:, "Return"].add(1).cumprod()
+#joined.rename(columns={"Profit_per_day": "MOC_Strategy"}, inplace=True)
+joined.loc[:,["MOC_Strategy", "SPX"]].plot()
+plt.savefig(f"./Plots/Test Set Performance vs SPX.jpg")
+plt.show()
+print(f"Sharpe Ratio MOC_Strategy Training Set: {np.sqrt(252) * joined.loc[:,'Profit_per_day'].mean() / (joined.loc[:,'Profit_per_day'].std())}")
+print(f"Sharpe Ratio SPX Training Set: {np.sqrt(252) * joined.loc[:,'Return'].mean() / (joined.loc[:,'Return'].std())}")
+
+
 
 
 # %%
