@@ -1,4 +1,5 @@
 # Market on Close
+This repository analysis the potential of a statistical arbitrage strategy based on intra-day return deviances between stocks and futures.
 
 ## General intuition
 The idea behind the Market-on-Close strategy is to find stocks whose return's depend on the prices of some futures (e.g. gold mining stocks and gold futures). The assumption is that any price deviances (from the ordinary daily relationship of stock and future return) that occur within the trading day are likely to dissappear with the closing auction (due to rebalancings of institutional investors and the general price discovery mechanism). So the goal is to spot these deviances up to 15min before the close and take a long or short position in the stock. 
