@@ -15,4 +15,4 @@ The idea behind the Market-on-Close strategy is to find stocks whose return's de
 - Plots for the overall strategy as well for the individual stocks are generated to display the strategies performance in the training and the test set
 
 ## Findings & thoughts
-
+The Sharpe ratio in the training set results to be 2.18 (compared to the SPX in the same period of 0.71), however in the test set the sharpe ratio resulted to be 1.5 (compared to 1.66 of the SPX). This indicates that the backtest might have overfitted quite a bit on the training set and hence cause a much weaker performance on the test set. Generally, a strategy like this might have some potential. Some additional things that need to be considered in any further analysis are transactions costs/slippage/spreads. Due to the very large number of trades and the assumption of zero transaction costs only a slight increase in costs potentially renders the strategy infeasible. It could also be tested if a market neutral trades would yield better results. So instead of just longing/shorting the stock it would be possible to trade the future in the other direction. 
