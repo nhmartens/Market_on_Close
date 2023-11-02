@@ -605,3 +605,11 @@ Data/.DS_Store
 Data/Futures/.DS_Store
 Data/Stocks/.DS_Store
 Data/TestSet/.DS_Store
+train.csv
+test.csv
+Plots/.DS_Store
+.gitignore
+trades_of_strategy.csv
+Rolling_Reg.csv
+.DS_Store
+__pycache__/data_analysis.cpython-311.pyc
